@@ -111,18 +111,18 @@ const clubHighlights: ClubHighlight[] = [
         </nav>
 
         <div class="hidden items-center gap-3 md:flex">
-          <button
-            type="button"
+          <router-link
+            to="/login"
             class="cursor-pointer border border-slate-200 bg-white/80 px-4 py-2 text-sm text-slate-700 transition-all duration-300 hover:bg-slate-100/80 hover:text-slate-900"
           >
             登录
-          </button>
-          <button
-            type="button"
+          </router-link>
+          <router-link
+            to="/register"
             class="cursor-pointer border border-slate-200 bg-white/80 px-4 py-2 text-sm text-slate-700 transition-all duration-300 hover:bg-slate-100/80 hover:text-slate-900"
           >
             注册
-          </button>
+          </router-link>
           <button
             type="button"
             class="cursor-pointer border border-slate-900 bg-slate-900 px-4 py-2 text-sm text-slate-50 transition-all duration-300 hover:bg-slate-800"
