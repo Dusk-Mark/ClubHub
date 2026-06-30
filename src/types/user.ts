@@ -1,10 +1,11 @@
-export type UserRole = 'student' | 'club_leader' | 'admin';
+export type UserRole = 'student' | 'club_leader' | 'admin'
 
 export interface UserProfile {
-  id: string;
-  student_id: string;
-  full_name: string;
-  role: UserRole;
-  avatar_url?: string;
-  created_at: string;
+  id: string
+  student_id: string | null
+  full_name: string
+  role: UserRole
+  avatar_url: string | null
+  created_at: string
+  updated_at: string
 }

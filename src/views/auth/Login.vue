@@ -63,6 +63,7 @@
               <span v-else>继续</span>
             </button>
           </div>
+
         </form>
 
         <!-- Footer -->
@@ -91,16 +92,37 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { supabase } from '@/api/supabase'
+import { useUserStore } from '@/stores/user'
 import bgImage from '@/assets/auth/火车头.jpg'
 
 const router = useRouter()
+const userStore = useUserStore()
 const email = ref('')
 const password = ref('')
 const isLoading = ref(false)
 const errorMessage = ref('')
+
+const getErrorMessage = (error: any) => {
+  if (error?.message === 'Email not confirmed') {
+    return '您的邮箱尚未验证，请查收邮件并点击验证链接后再尝试登录。'
+  }
+  if (error instanceof Error) {
+    return error.message
+  }
+
+  return '登录失败，请检查邮箱和密码'
+}
+
+onMounted(async () => {
+  await userStore.initializeAuth()
+
+  if (userStore.isAuthenticated) {
+    router.replace(userStore.dashboardRoute)
+  }
+})
 
 const handleLogin = async () => {
   try {
@@ -114,10 +136,15 @@ const handleLogin = async () => {
 
     if (error) throw error
 
-    // Login successful, redirect to home
-    router.push('/')
-  } catch (error: any) {
-    errorMessage.value = error.message || '登录失败，请检查邮箱和密码'
+    await userStore.syncCurrentSession()
+
+    if (!userStore.isAuthenticated) {
+      throw new Error(userStore.authError || '登录成功，但未读取到用户资料。')
+    }
+
+    router.push(userStore.dashboardRoute)
+  } catch (error: unknown) {
+    errorMessage.value = getErrorMessage(error)
   } finally {
     isLoading.value = false
   }

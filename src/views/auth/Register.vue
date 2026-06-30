@@ -77,6 +77,11 @@
             {{ errorMessage }}
           </div>
 
+          <!-- Success Message -->
+          <div v-if="successMessage" class="bg-green-500/10 border border-green-500/20 text-green-500 text-sm p-4 rounded-xl text-center">
+            {{ successMessage }}
+          </div>
+
           <div>
             <button
               type="submit"
@@ -122,39 +127,60 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { supabase } from '@/api/supabase'
+import { useUserStore } from '@/stores/user'
 import bgImage from '@/assets/auth/火车头.jpg'
 
 const router = useRouter()
+const userStore = useUserStore()
 const fullName = ref('')
 const studentId = ref('')
 const email = ref('')
 const password = ref('')
 const isLoading = ref(false)
 const errorMessage = ref('')
+const successMessage = ref('')
+
+const getErrorMessage = (error: unknown) => {
+  if (error instanceof Error) {
+    return error.message
+  }
+
+  return '注册失败，请检查输入信息'
+}
 
 const handleRegister = async () => {
   try {
     isLoading.value = true
     errorMessage.value = ''
     
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email: email.value,
       password: password.value,
       options: {
         data: {
           full_name: fullName.value,
           student_id: studentId.value,
-          role: 'student' // 强制注册为普通学生
-        }
-      }
+          role: 'student',
+        },
+      },
     })
 
     if (error) throw error
 
-    alert('注册成功！请登录。')
-    router.push('/login')
-  } catch (error: any) {
-    errorMessage.value = error.message || '注册失败，请检查输入信息'
+    if (data.session) {
+      await userStore.syncCurrentSession()
+      router.push(userStore.dashboardRoute)
+      return
+    }
+
+    successMessage.value = '注册成功！请查收您的邮箱并点击验证链接以激活账号。'
+    // 清空表单
+    fullName.value = ''
+    studentId.value = ''
+    email.value = ''
+    password.value = ''
+  } catch (error: unknown) {
+    errorMessage.value = getErrorMessage(error)
   } finally {
     isLoading.value = false
   }
