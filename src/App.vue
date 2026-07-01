@@ -1,5 +1,9 @@
 <template>
-  <RouterView />
+  <RouterView v-slot="{ Component, route }">
+    <transition name="page-cinema" mode="out-in">
+      <component :is="Component" :key="route.fullPath" />
+    </transition>
+  </RouterView>
 </template>
 
 <script setup lang="ts">

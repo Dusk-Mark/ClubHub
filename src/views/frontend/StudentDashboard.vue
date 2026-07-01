@@ -117,13 +117,17 @@ onMounted(() => {
     </header>
 
     <main class="mx-auto max-w-7xl px-6 py-8 space-y-12 lg:px-10 lg:py-12">
-      <section v-if="errorMessage" class="border border-rose-200 bg-rose-50 px-6 py-4 text-sm text-rose-700">
+      <section
+        v-if="errorMessage"
+        v-reveal="{ origin: 'up', distance: 28 }"
+        class="border border-rose-200 bg-rose-50 px-6 py-4 text-sm text-rose-700"
+      >
         {{ errorMessage }}
       </section>
 
       <!-- 顶部概览区 -->
       <section class="grid gap-8 lg:grid-cols-[minmax(0,1.35fr)_minmax(280px,0.65fr)]">
-        <div class="space-y-8">
+        <div v-reveal="{ origin: 'up', delay: 60, distance: 50 }" class="space-y-8">
           <div class="space-y-4">
             <p class="text-xs uppercase tracking-[0.35em] text-slate-400">Dashboard</p>
             <h1 class="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
@@ -153,6 +157,12 @@ onMounted(() => {
             <article
               v-for="(item, index) in quickOverview"
               :key="item.label"
+              v-reveal="{
+                origin: 'up',
+                delay: index * 90,
+                distance: 36,
+                duration: 760,
+              }"
               :class="[
                 'p-6 relative bg-white transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_8px_30px_rgba(15,23,42,0.08)] hover:z-10',
                 index !== quickOverview.length - 1 ? 'border-b border-slate-200 sm:border-b-0 sm:border-r' : ''
@@ -164,7 +174,10 @@ onMounted(() => {
           </div>
         </div>
 
-        <aside class="border border-slate-200 bg-white p-8 text-slate-900">
+        <aside
+          v-reveal="{ origin: 'left', delay: 140, distance: 46 }"
+          class="border border-slate-200 bg-white p-8 text-slate-900"
+        >
           <div class="space-y-8">
             <div class="space-y-3">
               <p class="text-xs uppercase tracking-[0.32em] text-slate-500">This Week</p>
@@ -176,6 +189,12 @@ onMounted(() => {
               <article
                 v-for="(slot, index) in overview.slots"
                 :key="`${slot.label}-${slot.title}`"
+                v-reveal="{
+                  origin: 'left',
+                  delay: 80 + index * 70,
+                  distance: 28,
+                  duration: 720,
+                }"
                 :class="[
                   'p-4 relative bg-slate-50 transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_8px_30px_rgba(15,23,42,0.08)] hover:z-10',
                   index !== overview.slots.length - 1 ? 'border-b border-slate-200' : ''
@@ -200,7 +219,10 @@ onMounted(() => {
 
       <!-- 数据统计区 -->
       <section class="grid gap-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(320px,0.85fr)]">
-        <article class="border border-slate-200 bg-white p-8 transition-all duration-300 hover:scale-[1.01] hover:shadow-[0_8px_30px_rgba(15,23,42,0.08)]">
+        <article
+          v-reveal="{ origin: 'up', delay: 60, distance: 46 }"
+          class="border border-slate-200 bg-white p-8 transition-all duration-300 hover:scale-[1.01] hover:shadow-[0_8px_30px_rgba(15,23,42,0.08)]"
+        >
           <p class="text-xs uppercase tracking-[0.32em] text-slate-500">Overview</p>
           <div class="mt-6 flex items-end justify-between gap-4">
             <div>
@@ -218,6 +240,12 @@ onMounted(() => {
           <article
             v-for="(metric, index) in secondaryMetrics"
             :key="metric.label"
+            v-reveal="{
+              origin: 'up',
+              delay: index * 90,
+              distance: 36,
+              duration: 760,
+            }"
             :class="[
               'p-6 relative bg-white transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_8px_30px_rgba(15,23,42,0.08)] hover:z-10',
               index !== secondaryMetrics.length - 1 ? 'border-b border-slate-200 sm:border-b-0 sm:border-r' : ''
@@ -232,7 +260,11 @@ onMounted(() => {
 
       <!-- 列表区 -->
       <section class="grid gap-8 lg:grid-cols-[minmax(0,1.1fr)_360px]">
-        <div id="activities" class="border border-slate-200 bg-white">
+        <div
+          id="activities"
+          v-reveal="{ origin: 'up', delay: 80, distance: 52 }"
+          class="border border-slate-200 bg-white"
+        >
           <div class="border-b border-slate-200 px-8 py-6">
             <p class="text-xs uppercase tracking-[0.32em] text-slate-500">Upcoming Activities</p>
             <h2 class="mt-3 text-2xl font-semibold tracking-tight text-slate-900">近期活动安排</h2>
@@ -250,6 +282,7 @@ onMounted(() => {
             <article
               v-for="activity in activities"
               :key="activity.id"
+              v-reveal="{ origin: 'up', distance: 30, duration: 760 }"
               class="grid gap-6 px-8 py-6 relative bg-white transition-all duration-300 hover:scale-[1.01] hover:bg-slate-50 hover:shadow-[0_8px_30px_rgba(15,23,42,0.08)] hover:z-10 lg:grid-cols-[120px_minmax(0,1fr)_120px]"
             >
               <div class="border border-slate-200 bg-white px-4 py-4 text-center">
@@ -278,7 +311,11 @@ onMounted(() => {
         </div>
 
         <div class="grid gap-8">
-          <section id="notices" class="border border-slate-200 bg-white">
+          <section
+            id="notices"
+            v-reveal="{ origin: 'left', delay: 120, distance: 42 }"
+            class="border border-slate-200 bg-white"
+          >
             <div class="border-b border-slate-200 px-6 py-5">
               <p class="text-xs uppercase tracking-[0.32em] text-slate-500">Notice Board</p>
               <h2 class="mt-3 text-xl font-semibold tracking-tight text-slate-900">申请提醒</h2>
@@ -293,7 +330,12 @@ onMounted(() => {
             </div>
 
             <div v-else class="divide-y divide-slate-200">
-              <article v-for="notice in notices" :key="notice.id" class="px-6 py-5 relative bg-white transition-all duration-300 hover:scale-[1.02] hover:bg-slate-50 hover:shadow-[0_8px_30px_rgba(15,23,42,0.08)] hover:z-10">
+              <article
+                v-for="notice in notices"
+                :key="notice.id"
+                v-reveal="{ origin: 'left', distance: 26, duration: 720 }"
+                class="px-6 py-5 relative bg-white transition-all duration-300 hover:scale-[1.02] hover:bg-slate-50 hover:shadow-[0_8px_30px_rgba(15,23,42,0.08)] hover:z-10"
+              >
                 <div class="flex items-start justify-between gap-4">
                   <h3 class="text-sm font-medium text-slate-900">{{ notice.title }}</h3>
                   <span class="text-[10px] uppercase tracking-[0.2em] text-slate-500">{{ notice.time }}</span>
@@ -303,7 +345,10 @@ onMounted(() => {
             </div>
           </section>
 
-          <section class="border border-slate-200 bg-white">
+          <section
+            v-reveal="{ origin: 'left', delay: 180, distance: 42 }"
+            class="border border-slate-200 bg-white"
+          >
             <div class="border-b border-slate-200 px-6 py-5">
               <p class="text-xs uppercase tracking-[0.32em] text-slate-500">Timeline</p>
               <h2 class="mt-3 text-xl font-semibold tracking-tight text-slate-900">参与轨迹</h2>
@@ -321,6 +366,12 @@ onMounted(() => {
               <article
                 v-for="(item, index) in timeline"
                 :key="item.id"
+                v-reveal="{
+                  origin: 'left',
+                  delay: index * 80,
+                  distance: 26,
+                  duration: 720,
+                }"
                 class="grid grid-cols-[16px_minmax(0,1fr)] gap-4 py-4"
               >
                 <div class="flex flex-col items-center">

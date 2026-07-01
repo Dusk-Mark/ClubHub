@@ -2,7 +2,10 @@
   <div class="min-h-screen flex">
     <!-- Left Side: Form -->
     <div class="w-full lg:w-1/2 bg-[#111111] flex flex-col justify-center items-center p-8 sm:p-12 lg:p-24">
-      <div class="w-full max-w-md space-y-8">
+      <div
+        v-reveal="{ origin: 'up', delay: 40, distance: 42 }"
+        class="w-full max-w-md space-y-8"
+      >
         <!-- Logo / Header -->
         <div class="text-center">
           <div class="flex justify-center mb-6">
@@ -18,7 +21,11 @@
         </div>
 
         <!-- Form -->
-        <form class="mt-8 space-y-6" @submit.prevent="handleRegister">
+        <form
+          v-reveal="{ origin: 'up', delay: 120, distance: 34, duration: 760 }"
+          class="mt-8 space-y-6"
+          @submit.prevent="handleRegister"
+        >
           <div class="space-y-4">
             <div>
               <label for="fullName" class="sr-only">姓名</label>
@@ -106,12 +113,21 @@
               立即登录
             </router-link>
           </p>
+          <p class="mt-3 text-sm text-gray-500">
+            校团委管理员或社团管理员请前往
+            <router-link to="/backend" class="font-medium text-white hover:underline">
+              后台入口
+            </router-link>
+          </p>
         </div>
       </div>
     </div>
 
     <!-- Right Side: Image -->
-    <div class="hidden lg:block lg:w-1/2 relative">
+    <div
+      v-reveal="{ origin: 'right', delay: 140, distance: 54, duration: 920 }"
+      class="hidden lg:block lg:w-1/2 relative"
+    >
       <img
         class="absolute inset-0 h-full w-full object-cover"
         :src="bgImage"

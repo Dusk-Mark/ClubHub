@@ -3,5 +3,10 @@ import './style.css'
 import App from './App.vue'
 import router from './router'
 import { pinia } from './stores'
+import { registerScrollReveal } from './utils/scroll-reveal'
 
-createApp(App).use(pinia).use(router).mount('#app')
+const app = createApp(App)
+
+registerScrollReveal(app)
+
+app.use(pinia).use(router).mount('#app')

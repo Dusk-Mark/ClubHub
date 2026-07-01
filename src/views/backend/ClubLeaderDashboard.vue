@@ -88,7 +88,7 @@ const roleLabel = computed(() => (userStore.role === 'admin' ? '校团委管理�
 
 const handleLogout = () => {
   void userStore.signOut().finally(() => {
-    router.push('/login')
+    router.push('/backend/login')
   })
 }
 </script>
@@ -118,7 +118,10 @@ const handleLogout = () => {
     </header>
 
     <main class="mx-auto grid max-w-7xl gap-8 px-6 py-8 lg:grid-cols-[240px_minmax(0,1fr)] lg:px-10 lg:py-10">
-      <aside class="h-fit border border-slate-200 bg-white">
+      <aside
+        v-reveal="{ origin: 'up', delay: 40, distance: 40 }"
+        class="h-fit border border-slate-200 bg-white"
+      >
         <div class="border-b border-slate-200 px-6 py-5">
           <p class="text-xs uppercase tracking-[0.32em] text-slate-400">Workspace</p>
           <h1 class="mt-3 text-2xl font-semibold tracking-tight text-slate-900">{{ leaderName }}</h1>
@@ -162,6 +165,7 @@ const handleLogout = () => {
       <div class="flex flex-col gap-8">
         <section
           id="overview"
+          v-reveal="{ origin: 'up', delay: 80, distance: 54 }"
           class="grid gap-6 border border-slate-200 bg-white p-6 lg:grid-cols-[minmax(0,1.2fr)_320px] lg:p-8"
         >
           <div class="space-y-6">
@@ -216,7 +220,17 @@ const handleLogout = () => {
         </section>
 
         <section class="grid gap-px border border-slate-200 bg-slate-200 md:grid-cols-2 xl:grid-cols-4">
-          <article v-for="metric in metrics" :key="metric.label" class="bg-white p-6">
+          <article
+            v-for="(metric, index) in metrics"
+            :key="metric.label"
+            v-reveal="{
+              origin: 'up',
+              delay: index * 90,
+              distance: 38,
+              duration: 760,
+            }"
+            class="bg-white p-6"
+          >
             <p class="text-xs uppercase tracking-[0.3em] text-slate-400">{{ metric.label }}</p>
             <p class="mt-5 text-4xl font-semibold tracking-tight text-slate-900">{{ metric.value }}</p>
             <p class="mt-3 text-sm leading-7 text-slate-500">{{ metric.detail }}</p>
@@ -224,7 +238,11 @@ const handleLogout = () => {
         </section>
 
         <section class="grid gap-8 xl:grid-cols-[minmax(0,1.1fr)_340px]">
-          <div id="activities" class="border border-slate-200 bg-white">
+          <div
+            id="activities"
+            v-reveal="{ origin: 'up', delay: 90, distance: 50 }"
+            class="border border-slate-200 bg-white"
+          >
             <div class="border-b border-slate-200 px-6 py-5">
               <p class="text-xs uppercase tracking-[0.32em] text-slate-400">Activity Management</p>
               <h2 class="mt-3 text-2xl font-semibold tracking-tight text-slate-900">活动管理面板</h2>
@@ -234,6 +252,7 @@ const handleLogout = () => {
               <article
                 v-for="activity in managedActivities"
                 :key="activity.id"
+                v-reveal="{ origin: 'up', distance: 28, duration: 740 }"
                 class="grid gap-4 px-6 py-6 md:grid-cols-[minmax(0,1fr)_120px_130px]"
               >
                 <div class="space-y-3">
@@ -253,14 +272,23 @@ const handleLogout = () => {
           </div>
 
           <div class="grid gap-8">
-            <section id="applications" class="border border-slate-200 bg-white">
+            <section
+              id="applications"
+              v-reveal="{ origin: 'left', delay: 120, distance: 40 }"
+              class="border border-slate-200 bg-white"
+            >
               <div class="border-b border-slate-200 px-6 py-5">
                 <p class="text-xs uppercase tracking-[0.32em] text-slate-400">Application Queue</p>
                 <h2 class="mt-3 text-2xl font-semibold tracking-tight text-slate-900">待审核报名</h2>
               </div>
 
               <div class="divide-y divide-slate-200">
-                <article v-for="task in registrationTasks" :key="task.id" class="px-6 py-5">
+                <article
+                  v-for="task in registrationTasks"
+                  :key="task.id"
+                  v-reveal="{ origin: 'left', distance: 24, duration: 720 }"
+                  class="px-6 py-5"
+                >
                   <div class="flex items-start justify-between gap-4">
                     <div>
                       <h3 class="text-base font-medium text-slate-900">{{ task.applicant }}</h3>
@@ -272,14 +300,23 @@ const handleLogout = () => {
               </div>
             </section>
 
-            <section id="archive" class="border border-slate-200 bg-white">
+            <section
+              id="archive"
+              v-reveal="{ origin: 'left', delay: 180, distance: 40 }"
+              class="border border-slate-200 bg-white"
+            >
               <div class="border-b border-slate-200 px-6 py-5">
                 <p class="text-xs uppercase tracking-[0.32em] text-slate-400">Archive Notes</p>
                 <h2 class="mt-3 text-2xl font-semibold tracking-tight text-slate-900">资料与成员提醒</h2>
               </div>
 
               <div class="divide-y divide-slate-200">
-                <article v-for="item in archiveTasks" :key="item.id" class="px-6 py-5">
+                <article
+                  v-for="item in archiveTasks"
+                  :key="item.id"
+                  v-reveal="{ origin: 'left', distance: 24, duration: 720 }"
+                  class="px-6 py-5"
+                >
                   <h3 class="text-base font-medium text-slate-900">{{ item.title }}</h3>
                   <p class="mt-3 text-sm leading-7 text-slate-500">{{ item.summary }}</p>
                 </article>

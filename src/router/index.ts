@@ -2,6 +2,9 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomePage from '../views/frontend/HomePage.vue'
 import Login from '../views/auth/Login.vue'
 import Register from '../views/auth/Register.vue'
+import BackendEntry from '../views/auth/BackendEntry.vue'
+import BackendLogin from '../views/auth/BackendLogin.vue'
+import BackendRegister from '../views/auth/BackendRegister.vue'
 import StudentDashboard from '../views/frontend/StudentDashboard.vue'
 import ClubLeaderDashboard from '../views/backend/ClubLeaderDashboard.vue'
 import { pinia } from '@/stores'
@@ -20,11 +23,41 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: Login,
+      meta: {
+        guestOnly: true,
+      },
     },
     {
       path: '/register',
       name: 'register',
       component: Register,
+      meta: {
+        guestOnly: true,
+      },
+    },
+    {
+      path: '/backend',
+      name: 'backend-entry',
+      component: BackendEntry,
+      meta: {
+        guestOnly: true,
+      },
+    },
+    {
+      path: '/backend/login',
+      name: 'backend-login',
+      component: BackendLogin,
+      meta: {
+        guestOnly: true,
+      },
+    },
+    {
+      path: '/backend/register',
+      name: 'backend-register',
+      component: BackendRegister,
+      meta: {
+        guestOnly: true,
+      },
     },
     {
       path: '/student/dashboard',
@@ -53,9 +86,10 @@ router.beforeEach(async (to) => {
   await userStore.initializeAuth()
 
   const requiresAuth = to.meta.requiresAuth === true
+  const guestOnly = to.meta.guestOnly === true
   const allowedRoles = to.meta.allowedRoles as UserRole[] | undefined
 
-  if ((to.name === 'login' || to.name === 'register') && userStore.isAuthenticated) {
+  if (guestOnly && userStore.isAuthenticated) {
     return { path: userStore.dashboardRoute }
   }
 
@@ -64,7 +98,9 @@ router.beforeEach(async (to) => {
   }
 
   if (!userStore.isAuthenticated) {
-    return { name: 'login' }
+    return to.path.startsWith('/backend')
+      ? { name: 'backend-login' }
+      : { name: 'login' }
   }
 
   if (allowedRoles && userStore.role && !allowedRoles.includes(userStore.role)) {
